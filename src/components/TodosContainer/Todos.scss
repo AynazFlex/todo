@@ -1,0 +1,104 @@
+@import "../../scssDefault/default";
+
+@mixin panel-child {
+    color: $yellow;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.todos-wrapper {
+
+    .todos-panel {
+        display: flex;
+        justify-content: space-between;
+        position: sticky;
+        top: 5px;
+        z-index: 1;
+        margin: 5px 0;
+        background: $black;
+        padding: 10px;
+
+        .todos-items, .todos-clear {
+            @include panel-child;
+        }
+
+        .todos-clear {
+            cursor: pointer;
+        }
+
+        .todos-select {
+            display: flex;
+            gap: 5px;
+            color: $yellow;
+
+            &:nth-child(n) {
+                cursor: pointer;
+            }
+
+            .todos-selected {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.todos-empty {
+    text-align: center;
+    font-size: 18px;
+}
+
+.todo-container {
+    margin: 5px 0;
+    position: relative;
+    padding: 5px;
+    border: $border;
+    cursor: pointer;
+    transition: 0.5s;
+
+    .todo-info {
+        display: flex;
+        gap: 5px;
+
+        .todo-done {
+            border: $border;
+            min-width: 30px;
+            height: 30px;
+            align-self: flex-start;
+
+            .todo-icon-done {
+                display: block;
+                margin: auto;
+                height: 100%;
+            }
+        }
+    
+        .todo-body {
+            font-size: 18px;
+        }
+    }
+
+    .todo-date {
+        padding: 5px 10px;
+        margin: auto;
+        width: max-content;
+        color: $yellow;
+        background: $black;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .todo-delete {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+
+        .todo-icon-delete {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+}
