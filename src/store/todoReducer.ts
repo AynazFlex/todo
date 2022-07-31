@@ -1,10 +1,11 @@
+import todoFromStorage from "../api/storageAPI";
 import { InferActions } from "./store";
 
 type Actions = InferActions<typeof actions>;
 
 export const actions = {
-    addTodo: (body: string) =>
-      ({ type: "ADD_TODO", todo: { body, done: false, id: Date.now() } } as const),
+    addTodo: (body: string, id: number) =>
+      ({ type: "ADD_TODO", todo: { body, done: false, id } } as const),
     doneTodo: (id: number) => ({ type: "DONE_TODO", id } as const),
     deleteTodo: (id: number) => 
       ({ type: "DELETE_TODO", id } as const),
@@ -18,12 +19,14 @@ export type Todo = {
     id: number
 }
 
+console.log(todoFromStorage);
+
 type State = {
     todos: Todo[]
 }
 
 const initialState: State = {
-    todos: [],
+    todos: todoFromStorage,
 }
 
 const todoReducer = (state = initialState, action: Actions): State => {

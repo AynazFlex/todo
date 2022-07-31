@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC, memo, PointerEvent } from "react";
 import { actions, Todo } from "../../store/todoReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Todos.scss";
@@ -9,9 +9,13 @@ import { AppDispatch } from "../../store/store";
 const ToDo: FC<Todo> = ({ body, done, id }) => {
   const dispatch: (AnyAction: any) => AppDispatch = useDispatch();
   const date = new Date(id);
+
   return (
     <div
-      onClick={() => dispatch(actions.doneTodo(id))}
+      onClick={() => {
+        dispatch(actions.doneTodo(id))
+        localStorage.setItem(`${id}`, JSON.stringify({ body, done: true, id }))
+      }}
       className="todo-container"
     >
       <div className="todo-date">{`${date
@@ -26,7 +30,11 @@ const ToDo: FC<Todo> = ({ body, done, id }) => {
         <div className="todo-body">{body}</div>
       </div>
       <span
-        onClick={() => dispatch(actions.deleteTodo(id))}
+        onClick={(e) => {
+          e.stopPropagation();
+          dispatch(actions.deleteTodo(id));
+          localStorage.removeItem(`${id}`);
+        }}
         className="todo-delete"
       >
         <FontAwesomeIcon className="todo-icon-delete" icon={faXmark} />

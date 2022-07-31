@@ -31,7 +31,10 @@ const Todos: FC = () => {
           <Select select="Completed" />
         </div>
         <div
-          onClick={() => dispatch(actions.deleteDoneTodos())}
+          onClick={() => {
+            todos.forEach(todo => todo.done && localStorage.removeItem(`${todo.id}`))
+            dispatch(actions.deleteDoneTodos())
+          }}
           className="todos-clear"
         >
           Clear completed

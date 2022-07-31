@@ -13,7 +13,9 @@ const Input: FC = () => {
     const submit = (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
         if(text) {
-            dispatch(actions.addTodo(text))
+            const date = Date.now();
+            dispatch(actions.addTodo(text, date))
+            localStorage.setItem(`${date}`, JSON.stringify({ body: text, done: false, id: date }))
             setText('');
         } else input.current?.focus();
     }
