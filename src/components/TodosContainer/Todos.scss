@@ -12,31 +12,37 @@
         display: flex;
         justify-content: space-between;
         position: sticky;
+        align-items: center;
         top: 5px;
         z-index: 1;
+        gap: 5px;
         margin: 5px 0;
         background: $black;
         padding: 10px;
+
+        @media screen and (max-width: 460px) {
+            flex-wrap: wrap;
+            .todos-clear {
+                margin-left: auto;
+            }
+        }
 
         .todos-items, .todos-clear {
             @include panel-child;
         }
 
-        .todos-clear {
-            cursor: pointer;
-        }
-
         .todos-select {
             display: flex;
             gap: 5px;
-            color: $yellow;
 
-            &:nth-child(n) {
-                cursor: pointer;
+            &>button {
+                padding: 5px;
+                @include panel-child;
             }
 
             .todos-selected {
-                font-weight: bold;
+                padding: 4px !important;
+                border: 1px solid $yellow;
             }
         }
     }

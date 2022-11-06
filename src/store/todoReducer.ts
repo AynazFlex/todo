@@ -13,7 +13,7 @@ export const actions = {
       ({ type: "DELETE_DONE_TODOS"} as const),
   };
 
-export type Todo = {
+export interface ITodo {
     body: string
     done: boolean
     id: number
@@ -22,7 +22,7 @@ export type Todo = {
 console.log(todoFromStorage);
 
 type State = {
-    todos: Todo[]
+    todos: ITodo[]
 }
 
 const initialState: State = {

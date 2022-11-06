@@ -1,8 +1,8 @@
-import { Todo } from "../store/todoReducer";
+import { ITodo } from "../store/todoReducer";
 
-const todoFromStorage: Todo[] = [];
+const todoFromStorage: ITodo[] = [];
 
-const compareNumeric = (a: Todo, b: Todo): number => +a.id > +b.id ? -1 : +a.id === +b.id ? 0 : 1;
+const compareNumeric = (a: ITodo, b: ITodo): number => +a.id > +b.id ? -1 : +a.id === +b.id ? 0 : 1;
 
 for (let i = 0; i < localStorage.length; i++) {
   const key = localStorage.key(i);

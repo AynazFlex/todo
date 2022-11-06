@@ -5,32 +5,38 @@ import { actions } from "../../store/todoReducer";
 import ToDo from "./Todo";
 import "./Todos.scss";
 
-type Select = "All" | "Completed" | "Active";
+type TSelect = "All" | "Completed" | "Active";
+
+interface ISelect {
+  select: TSelect
+  callback: (select: TSelect) => void
+  selecting: (s: TSelect) => string
+}
+
+const Select: FC<ISelect> = ({ select, callback, selecting }) => (
+  <button onClick={() => callback(select)} className={selecting(select)}>
+    {select}
+  </button>
+);
 
 const Todos: FC = () => {
   const todos = useSelector((state: RootState) => state.todos);
   const dispatch: (AnyAction: any) => AppDispatch = useDispatch();
-  const [select, setSelect] = useState<Select>("All");
+  const [select, setSelect] = useState<TSelect>("All");
 
-  const selecting = (s: Select) =>
+  const selecting = (s: TSelect) =>
     select === s ? "todos-selected" : "";
-
-  const Select: FC<{ select: Select }> = ({ select }) => (
-    <div onClick={() => setSelect(select)} className={selecting(select)}>
-      {select}
-    </div>
-  );
 
   return todos.length > 0 ? (
     <div className="todos-wrapper">
       <div className="todos-panel">
         <div className="todos-items">{`items ${todos.length}`}</div>
         <div className="todos-select">
-          <Select select="All" />
-          <Select select="Active" />
-          <Select select="Completed" />
+          <Select select="All" callback={setSelect} selecting={selecting}/>
+          <Select select="Active" callback={setSelect} selecting={selecting}/>
+          <Select select="Completed" callback={setSelect} selecting={selecting}/>
         </div>
-        <div
+        <button
           onClick={() => {
             todos.forEach(todo => todo.done && localStorage.removeItem(`${todo.id}`))
             dispatch(actions.deleteDoneTodos())
@@ -38,18 +44,20 @@ const Todos: FC = () => {
           className="todos-clear"
         >
           Clear completed
-        </div>
+        </button>
       </div>
       <div className="todos-items">
         {select === "All"
           ? todos.map((todo) => <ToDo key={todo.id} {...todo} />)
           : select === "Active"
-          ? todos
-              .filter((todo) => todo.done === false)
-              .map((todo) => <ToDo key={todo.id} {...todo} />)
-          : todos
-              .filter((todo) => todo.done === true)
-              .map((todo) => <ToDo key={todo.id} {...todo} />)}
+          ? todos.reduce<JSX.Element[]>((list, todo) => {
+              !todo.done && list.push(<ToDo key={todo.id} {...todo} />)
+              return list
+            }, [])
+          : todos.reduce<JSX.Element[]>((list, todo) => {
+              todo.done && list.push(<ToDo key={todo.id} {...todo} />)
+              return list
+          }, [])}
       </div>
     </div>
   ) : (

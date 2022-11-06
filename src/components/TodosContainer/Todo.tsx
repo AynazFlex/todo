@@ -1,12 +1,12 @@
-import { FC, memo, PointerEvent } from "react";
-import { actions, Todo } from "../../store/todoReducer";
+import { FC, memo } from "react";
+import { actions, ITodo } from "../../store/todoReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Todos.scss";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 
-const ToDo: FC<Todo> = ({ body, done, id }) => {
+const ToDo: FC<ITodo> = ({ body, done, id }) => {
   const dispatch: (AnyAction: any) => AppDispatch = useDispatch();
   const date = new Date(id);
 
